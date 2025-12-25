@@ -1,9 +1,10 @@
 
 import React, { useState } from 'react';
 import LoginPage from './pages/auth/Login/LoginPage';
+import ForgotPasswordPage from './pages/auth/Login/ForgotPasswordPage';
 
 const App: React.FC = () => {
-  const [currentPage, setCurrentPage] = useState<'ready' | 'login' | 'dashboard'>('ready');
+  const [currentPage, setCurrentPage] = useState<'ready' | 'login' | 'forgot-password' | 'dashboard'>('ready');
 
   // Simple routing logic for the sequential development flow
   if (currentPage === 'ready') {
@@ -24,7 +25,16 @@ const App: React.FC = () => {
   }
 
   if (currentPage === 'login') {
-    return <LoginPage onLoginSuccess={() => setCurrentPage('dashboard')} />;
+    return (
+      <LoginPage 
+        onLoginSuccess={() => setCurrentPage('dashboard')} 
+        onForgotPassword={() => setCurrentPage('forgot-password')}
+      />
+    );
+  }
+
+  if (currentPage === 'forgot-password') {
+    return <ForgotPasswordPage onBackToLogin={() => setCurrentPage('login')} />;
   }
 
   if (currentPage === 'dashboard') {
