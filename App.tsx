@@ -1,24 +1,50 @@
 
 import React, { useState } from 'react';
 import LoginPage from './pages/auth/Login/LoginPage';
+import StudentLoginPage from './pages/auth/StudentLogin/StudentLoginPage';
 import ForgotPasswordPage from './pages/auth/Login/ForgotPasswordPage';
+import SuperAdminPortal from './pages/super-admin/SuperAdminPortal';
+import StudentPortal from './pages/student/StudentPortal';
 
 const App: React.FC = () => {
-  const [currentPage, setCurrentPage] = useState<'ready' | 'login' | 'forgot-password' | 'dashboard'>('ready');
+  const [currentPage, setCurrentPage] = useState<'ready' | 'login' | 'student-login' | 'forgot-password' | 'dashboard'>('ready');
+  const [userRole, setUserRole] = useState<'super_admin' | 'student' | null>(null);
 
-  // Simple routing logic for the sequential development flow
+  const handleSuperAdminLogin = () => {
+    setUserRole('super_admin');
+    setCurrentPage('dashboard');
+  };
+
+  const handleStudentLogin = () => {
+    setUserRole('student');
+    setCurrentPage('dashboard');
+  };
+
+  const handleLogout = () => {
+    setUserRole(null);
+    setCurrentPage('ready');
+  };
+
   if (currentPage === 'ready') {
     return (
       <div className="min-h-screen bg-slate-950 text-slate-200 font-sans selection:bg-indigo-500/30 flex items-center justify-center p-6">
         <div className="max-w-xl text-center">
           <h1 className="text-5xl font-extrabold text-white mb-6">PlacementPro<span className="text-indigo-500">.AI</span></h1>
-          <p className="text-slate-400 text-lg mb-10">Analysis complete. Ready to enter the Authentication Layer.</p>
-          <button 
-            onClick={() => setCurrentPage('login')}
-            className="px-8 py-4 bg-indigo-600 hover:bg-indigo-500 text-white rounded-xl font-bold transition-all transform hover:scale-105 shadow-[0_0_20px_rgba(79,70,229,0.4)]"
-          >
-            Access Super Admin Portal
-          </button>
+          <p className="text-slate-400 text-lg mb-10 italic">Enterprise Portal Ready. Choose your entry point.</p>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <button 
+              onClick={() => setCurrentPage('login')}
+              className="px-8 py-4 bg-indigo-600 hover:bg-indigo-500 text-white rounded-xl font-black tracking-widest transition-all transform hover:scale-105 shadow-[0_0_30px_rgba(79,70,229,0.5)] active:scale-95"
+            >
+              SUPER ADMIN
+            </button>
+            <button 
+              onClick={() => setCurrentPage('student-login')}
+              className="px-8 py-4 bg-white/10 hover:bg-white/20 text-white rounded-xl font-black tracking-widest transition-all transform hover:scale-105 border border-white/20 active:scale-95"
+            >
+              STUDENT PORTAL
+            </button>
+          </div>
         </div>
       </div>
     );
@@ -27,8 +53,16 @@ const App: React.FC = () => {
   if (currentPage === 'login') {
     return (
       <LoginPage 
-        onLoginSuccess={() => setCurrentPage('dashboard')} 
+        onLoginSuccess={handleSuperAdminLogin} 
         onForgotPassword={() => setCurrentPage('forgot-password')}
+      />
+    );
+  }
+
+  if (currentPage === 'student-login') {
+    return (
+      <StudentLoginPage 
+        onLoginSuccess={handleStudentLogin}
       />
     );
   }
@@ -38,23 +72,11 @@ const App: React.FC = () => {
   }
 
   if (currentPage === 'dashboard') {
-    return (
-      <div className="min-h-screen bg-slate-950 flex flex-col items-center justify-center text-white p-10">
-        <div className="h-20 w-20 bg-emerald-500 rounded-full flex items-center justify-center mb-6 shadow-[0_0_40px_rgba(16,185,129,0.4)]">
-          <svg className="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="3" d="M5 13l4 4L19 7" />
-          </svg>
-        </div>
-        <h1 className="text-3xl font-bold">Authentication Successful</h1>
-        <p className="text-slate-400 mt-2 italic">Welcome back, Super Admin Naresh.</p>
-        <button 
-          onClick={() => setCurrentPage('login')}
-          className="mt-8 text-slate-500 hover:text-white text-sm underline underline-offset-4"
-        >
-          Logout
-        </button>
-      </div>
-    );
+    if (userRole === 'student') {
+      return <StudentPortal onLogout={handleLogout} />;
+    }
+    // Default to Super Admin if role is super_admin or null (fallback)
+    return <SuperAdminPortal onLogout={handleLogout} />;
   }
 
   return null;

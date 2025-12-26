@@ -37,8 +37,8 @@ const LoginPage: React.FC<LoginPageProps> = ({ onLoginSuccess, onForgotPassword 
         className="absolute inset-0 bg-cover bg-center bg-no-repeat transition-transform duration-[60s] ease-linear"
         style={{ backgroundImage: `url('${bgImageUrl}')` }}
       >
-        {/* Subtle overlay to ensure high readability of branding */}
-        <div className="absolute inset-0 bg-black/10"></div>
+        {/* Subtle overlay for contrast */}
+        <div className="absolute inset-0 bg-black/20"></div>
       </div>
 
       <div className="container mx-auto px-10 md:px-20 lg:px-32 flex flex-col lg:flex-row items-center justify-between z-10 relative">
@@ -72,25 +72,27 @@ const LoginPage: React.FC<LoginPageProps> = ({ onLoginSuccess, onForgotPassword 
           </div>
         </div>
 
-        {/* Right Section: The Frosty Glass Login Card */}
+        {/* Right Section: The Denser Frosty Glass Login Card */}
         <div className="w-full max-w-[540px] animate-fade-in-delayed">
-          <div className="backdrop-blur-[60px] bg-white/10 border border-white/20 rounded-[3rem] p-12 md:p-16 shadow-[0_60px_150px_rgba(0,0,0,0.4)] relative">
-            <form onSubmit={handleLogin} className="space-y-10">
+          {/* Dense Glassy Finish: bg-white/40, backdrop-blur-[40px] */}
+          <div className="backdrop-blur-[40px] bg-white/40 border border-white/60 rounded-[3rem] p-12 md:p-16 shadow-[0_50px_100px_rgba(0,0,0,0.3)] relative overflow-hidden group transition-all duration-500">
+            
+            <form onSubmit={handleLogin} className="space-y-8 relative z-20">
               
-              <div className="space-y-3">
-                <label className="text-white/80 text-sm font-bold tracking-wide ml-1">Email</label>
+              <div className="space-y-2">
+                <label className="text-slate-800 text-[11px] font-black tracking-widest ml-1 uppercase">Email</label>
                 <input 
                   type="email" 
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder="Enter your email"
                   required
-                  className="w-full px-7 py-5 bg-white border-none outline-none rounded-xl text-slate-800 placeholder:text-slate-400 font-semibold shadow-xl transition-all focus:ring-4 focus:ring-blue-500/30"
+                  className="w-full px-7 py-5 bg-white/60 hover:bg-white/80 border border-white/40 rounded-2xl text-slate-900 placeholder:text-slate-500 font-bold outline-none shadow-sm focus:border-blue-400 focus:bg-white focus:ring-4 focus:ring-blue-100/50 transition-all"
                 />
               </div>
 
-              <div className="space-y-3">
-                <label className="text-white/80 text-sm font-bold tracking-wide ml-1">Password</label>
+              <div className="space-y-2">
+                <label className="text-slate-800 text-[11px] font-black tracking-widest ml-1 uppercase">Password</label>
                 <div className="relative">
                   <input 
                     type="password" 
@@ -98,13 +100,13 @@ const LoginPage: React.FC<LoginPageProps> = ({ onLoginSuccess, onForgotPassword 
                     onChange={(e) => setPassword(e.target.value)}
                     placeholder="••••••••••••"
                     required
-                    className="w-full px-7 py-5 bg-white border-none outline-none rounded-xl text-slate-800 placeholder:text-slate-400 font-semibold tracking-widest shadow-xl transition-all focus:ring-4 focus:ring-blue-500/30"
+                    className="w-full px-7 py-5 bg-white/60 hover:bg-white/80 border border-white/40 rounded-2xl text-slate-900 placeholder:text-slate-500 font-bold outline-none shadow-sm focus:border-blue-400 focus:bg-white focus:ring-4 focus:ring-blue-100/50 transition-all"
                   />
-                  <div className="text-right mt-4">
+                  <div className="text-right mt-3">
                     <button 
                       type="button" 
                       onClick={onForgotPassword}
-                      className="text-white/70 hover:text-white text-xs font-bold transition-colors underline underline-offset-8 decoration-white/20"
+                      className="text-slate-600 hover:text-blue-600 text-xs font-black transition-colors"
                     >
                       Forgot password?
                     </button>
@@ -113,7 +115,7 @@ const LoginPage: React.FC<LoginPageProps> = ({ onLoginSuccess, onForgotPassword 
               </div>
 
               {error && (
-                <div className="p-3 bg-red-500/30 border border-red-500/40 rounded-xl text-white text-xs font-black text-center animate-shake">
+                <div className="p-3 bg-red-100/80 backdrop-blur-xl border border-red-200 rounded-xl text-red-600 text-xs font-black text-center animate-shake">
                   {error}
                 </div>
               )}
@@ -121,10 +123,10 @@ const LoginPage: React.FC<LoginPageProps> = ({ onLoginSuccess, onForgotPassword 
               <button 
                 type="submit" 
                 disabled={isLoading}
-                className={`w-full py-5 rounded-xl font-black text-white tracking-[0.2em] uppercase transition-all shadow-2xl active:scale-95 flex items-center justify-center gap-3 ${
+                className={`w-full py-5 rounded-2xl font-black text-white tracking-[0.2em] uppercase transition-all shadow-xl active:scale-95 flex items-center justify-center gap-3 ${
                   isLoading 
                   ? 'bg-blue-600/50 cursor-not-allowed' 
-                  : 'bg-[#2587FF] hover:bg-[#1a76e6] shadow-[#2587FF]/50'
+                  : 'bg-[#007AFF] hover:bg-[#0066FF] shadow-blue-500/30 hover:shadow-blue-500/40'
                 }`}
               >
                 {isLoading ? (
@@ -136,16 +138,16 @@ const LoginPage: React.FC<LoginPageProps> = ({ onLoginSuccess, onForgotPassword 
               </button>
 
               <div className="flex items-center gap-6 py-2">
-                <div className="h-px flex-1 bg-white/20"></div>
-                <span className="text-white/40 text-[10px] font-black uppercase tracking-[0.5em]">or</span>
-                <div className="h-px flex-1 bg-white/20"></div>
+                <div className="h-[1.5px] flex-1 bg-slate-400/30 rounded-full"></div>
+                <span className="text-slate-500 text-[10px] font-black uppercase tracking-[0.2em]">or</span>
+                <div className="h-[1.5px] flex-1 bg-slate-400/30 rounded-full"></div>
               </div>
 
               <button 
                 type="button"
-                className="w-full py-5 bg-white/5 hover:bg-white/10 border border-white/20 rounded-xl text-white font-black tracking-widest uppercase text-[11px] transition-all flex items-center justify-center gap-5 shadow-lg"
+                className="w-full py-5 bg-white/60 hover:bg-white/80 border border-white/40 rounded-2xl text-slate-700 font-black tracking-widest uppercase text-[11px] transition-all flex items-center justify-center gap-5 shadow-sm active:scale-95 group"
               >
-                <div className="bg-white p-1 rounded-full scale-110">
+                <div className="bg-white p-1 rounded-full scale-110 shadow-sm group-hover:scale-125 transition-transform">
                   <svg className="w-4 h-4" viewBox="0 0 24 24">
                     <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" />
                     <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" />
@@ -156,9 +158,9 @@ const LoginPage: React.FC<LoginPageProps> = ({ onLoginSuccess, onForgotPassword 
                 Sign in with Google
               </button>
 
-              <div className="text-center pt-4">
-                <p className="text-white/60 text-sm font-bold uppercase tracking-widest">
-                  Are you new? <a href="#" className="text-white hover:text-blue-300 transition-all font-black underline underline-offset-8 decoration-white/30">Create an Account</a>
+              <div className="text-center pt-2">
+                <p className="text-slate-600 text-sm font-bold uppercase tracking-widest">
+                  Are you new? <a href="#" className="text-blue-600 hover:text-blue-500 transition-all font-black decoration-blue-200">Create Account</a>
                 </p>
               </div>
             </form>
